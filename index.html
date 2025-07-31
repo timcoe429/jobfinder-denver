@@ -1005,13 +1005,13 @@
 
             // Site restriction based on search source
             if (searchSource === 'standard') {
-                query += 'site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com';
+                query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:ziprecruiter.com OR site:monster.com)';
             } else if (searchSource === 'company') {
-                query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/)';
+                query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/ OR site:indeed.com OR site:ziprecruiter.com)';
             } else if (searchSource === 'craigslist') {
                 query += 'site:craigslist.org';
             } else if (searchSource === 'all') {
-                query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/ OR site:craigslist.org)';
+                query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:ziprecruiter.com OR site:monster.com OR site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/ OR site:craigslist.org)';
             }
 
             // Job type (required) - use dropdown or custom input
@@ -1027,12 +1027,16 @@
             // Location (important for company career pages)
             if (location && location !== 'remote') {
                 query += ` ("${location}" OR "Colorado" OR "CO")`;
+                // Exclude other countries/states to prevent mis-targeting
+                query += ' -canada -"british columbia" -ontario -quebec -alberta';
             } else if (location === 'remote') {
-                query += ' ("remote" OR "work from home")';
+                query += ' ("remote" OR "work from home") ("United States" OR "US" OR "USA")';
+                query += ' -canada -"british columbia" -ontario -quebec -alberta';
             } else {
                 // Default to Colorado for company searches
                 if (searchSource === 'company' || searchSource === 'all') {
                     query += ' ("Colorado" OR "CO" OR "Denver")';
+                    query += ' -canada -"british columbia" -ontario -quebec -alberta';
                 }
             }
 
@@ -1069,15 +1073,14 @@
                 query += ` after:${dateString}`;
             }
 
-            // Filter out scams and low-quality jobs
+            // Filter out scams and low-quality jobs (reduced filtering)
             if (filterScams) {
                 query += ' -scam -MLM -"pyramid scheme" -"commission only" -"pay to work"';
                 query += ' -"work from home kit" -"envelope stuffing" -"data entry scam"';
-                query += ' -temp -temporary -staffing -agency -"staffing agency"';
-                query += ' -"make money fast" -"easy money" -"no experience needed to earn"';
+                query += ' -"make money fast" -"easy money"';
                 
-                // Additional exclusions for aggregation pages
-                query += ' -"jobs available" -"employment" -"jobs in"';
+                // Exclude obvious spam aggregators but keep legitimate staffing
+                query += ' -"jobs available now" -"hiring immediately thousands"';
             }
 
             return query.trim();
