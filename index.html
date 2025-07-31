@@ -1008,6 +1008,7 @@
                 query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:ziprecruiter.com OR site:monster.com)';
             } else if (searchSource === 'company') {
                 query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/)';
+                query += ' -site:indeed.com -site:ziprecruiter.com -site:glassdoor.com -site:monster.com -site:linkedin.com';
             } else if (searchSource === 'craigslist') {
                 query += 'site:craigslist.org';
             } else if (searchSource === 'all') {
@@ -1024,32 +1025,29 @@
                 query += ' "jobs"';
             }
 
-            // Location (important for company career pages)
-            if (location && location !== 'remote') {
-                query += ` ("${location}" OR "Colorado" OR "CO")`;
-                // Exclude other countries/states to prevent mis-targeting
-                query += ' -canada -"british columbia" -ontario -quebec -alberta';
-            } else if (location === 'remote') {
-                query += ' ("remote" OR "work from home") ("United States" OR "US" OR "USA")';
-                query += ' -canada -"british columbia" -ontario -quebec -alberta';
-            } else {
-                // Default to Colorado for company searches
-                if (searchSource === 'company' || searchSource === 'all') {
-                    query += ' ("Colorado" OR "CO" OR "Denver")';
-                    query += ' -canada -"british columbia" -ontario -quebec -alberta';
-                }
+            // Location (simplified - Google handles local bias automatically)
+            if (location && location === 'remote') {
+                query += ' ("remote" OR "work from home")';
             }
+            // For local searches, Google already knows your location and prioritizes nearby results
 
-            // Salary filtering
+            // Salary filtering - more flexible for company searches
             if (salary) {
                 if (salary >= 30000) {
                     // Salary format
                     const salaryK = Math.floor(salary / 1000);
                     query += ` ("$${salaryK}k" OR "$${salaryK},000" OR "$${salaryK + 5}k" OR "$${salaryK + 10}k")`;
                 } else {
-                    // Hourly format
-                    query += ` ("$${salary}" OR "$${parseInt(salary) + 1}" OR "$${parseInt(salary) + 2}" OR "$${parseInt(salary) + 3}")`;
-                    query += ` ("per hour" OR "hourly" OR "/hr" OR "/hour")`;
+                    // Hourly format - more flexible for company sites
+                    if (searchSource === 'company') {
+                        // Broader salary terms for company career pages
+                        query += ` ("$${salary}" OR "$${parseInt(salary) + 1}" OR "$${parseInt(salary) + 2}" OR "$${parseInt(salary) + 3}" OR "$${parseInt(salary) + 4}" OR "$${parseInt(salary) + 5}")`;
+                        query += ` ("per hour" OR "hourly" OR "/hr" OR "/hour" OR "starting" OR "up to" OR "competitive")`;
+                    } else {
+                        // Specific format for job aggregation sites
+                        query += ` ("$${salary}" OR "$${parseInt(salary) + 1}" OR "$${parseInt(salary) + 2}" OR "$${parseInt(salary) + 3}")`;
+                        query += ` ("per hour" OR "hourly" OR "/hr" OR "/hour")`;
+                    }
                 }
             }
 
@@ -1073,14 +1071,14 @@
                 query += ` after:${dateString}`;
             }
 
-            // Filter out scams and low-quality jobs (reduced filtering)
+            // Minimal spam filtering (only the most obvious scams)
             if (filterScams) {
-                query += ' -scam -MLM -"pyramid scheme" -"commission only" -"pay to work"';
-                query += ' -"work from home kit" -"envelope stuffing" -"data entry scam"';
-                query += ' -"make money fast" -"easy money"';
-                
-                // Exclude obvious spam aggregators but keep legitimate staffing
-                query += ' -"jobs available now" -"hiring immediately thousands"';
+                if (searchSource === 'company') {
+                    // No filtering for company career pages (they're legitimate)
+                } else {
+                    // Only filter the most obvious scams on job aggregation sites
+                    query += ' -scam -MLM';
+                }
             }
 
             return query.trim();
