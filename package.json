@@ -5,9 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "live-server --port=3000",
-    "build": "echo 'Build complete'",
-    "deploy": "npm run build && gh-pages -d dist"
+    "dev": "live-server --port=3000"
   },
   "keywords": [
     "jobs",
@@ -34,6 +32,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mxb18/jobfinder-denver.git"
+    "url": "git+https://github.com/timcoe429/jobfinder-denver.git"
   }
 }
