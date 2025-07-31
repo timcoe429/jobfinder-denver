@@ -1,0 +1,277 @@
+# JobFinder - Denver Edition
+
+## Project Overview
+
+JobFinder is a mobile-first job search application specifically designed for warehouse and customer service positions in the Denver, Colorado metro area. The app provides a clean, modern interface that aggregates job listings from multiple sources and eliminates spam-heavy job sites.
+
+## 🎯 Project Goals
+
+- **Target Audience**: Job seekers in Denver looking for warehouse and customer service positions
+- **Primary User**: Your son (and others) seeking quality employment opportunities
+- **Focus Areas**: Warehouse jobs, Customer service roles, Entry-level to experienced positions
+- **Location**: Denver metropolitan area (Aurora, Lakewood, Commerce City, etc.)
+
+## 🚀 Key Features
+
+### Live Job Feeds
+- Real-time job listings from multiple sources
+- Separate feeds for warehouse and customer service jobs
+- AI-powered job search using Claude API
+- Fresh data updated automatically
+
+### Mobile-First Design
+- Responsive design optimized for mobile devices
+- Clean, modern interface inspired by professional job sites
+- Easy navigation and job discovery
+- Quick access to application links
+
+### Smart Search Capabilities
+- Integration with Claude AI for intelligent job searching
+- Direct links to popular job boards (Indeed, Glassdoor, LinkedIn)
+- Company-specific career page shortcuts
+- Advanced filtering and search options
+
+### No Spam Guarantee
+- Curated job sources to eliminate low-quality listings
+- Focus on legitimate employers and direct job postings
+- Quality over quantity approach to job aggregation
+
+## 🛠 Technical Stack
+
+### Frontend
+- **HTML5**: Semantic markup for accessibility
+- **CSS3**: Modern styling with mobile-first responsive design
+- **Vanilla JavaScript**: Clean, dependency-free functionality
+- **CSS Grid & Flexbox**: Modern layout techniques
+
+### Backend Integration
+- **Claude API**: AI-powered job search and data processing
+- **RESTful API calls**: Clean integration with external services
+- **Local Storage**: Client-side data persistence
+- **Error Handling**: Robust error management and user feedback
+
+### Deployment Ready
+- **Static Site**: Can be deployed to any static hosting service
+- **Railway Compatible**: Ready for Railway deployment with API endpoints
+- **GitHub Pages**: Can be deployed directly from GitHub
+- **Netlify/Vercel**: Full deployment support
+
+## 📱 Mobile-First Design Principles
+
+### Responsive Breakpoints
+- **Mobile**: 320px - 639px (primary focus)
+- **Tablet**: 640px - 1023px
+- **Desktop**: 1024px+ (enhanced experience)
+
+### Touch-Friendly Interface
+- Large tap targets (minimum 44px)
+- Swipe-friendly cards and lists
+- Thumb-reachable navigation
+- Optimized for one-handed use
+
+### Performance Optimized
+- Minimal JavaScript footprint
+- Efficient CSS with no external dependencies
+- Fast loading times on mobile networks
+- Progressive enhancement approach
+
+## 🔧 Setup Instructions
+
+### Prerequisites
+- Claude API key from Anthropic
+- Modern web browser
+- Text editor (VS Code recommended)
+- Node.js (for development server, optional)
+
+### Local Development
+1. Clone the repository
+2. Open `index.html` in a web browser
+3. Enter your Claude API key in the setup section
+4. Start searching for jobs!
+
+### Railway Deployment
+1. Connect GitHub repository to Railway
+2. Set environment variables:
+   - `CLAUDE_API_KEY`: Your Anthropic API key
+3. Deploy using Railway's automatic deployment
+4. Access your live job search app
+
+### Environment Variables
+```
+CLAUDE_API_KEY=sk-ant-your-api-key-here
+NODE_ENV=production
+PORT=3000
+```
+
+## 📁 Project Structure
+
+```
+jobfinder-denver/
+├── index.html              # Main application file
+├── README.md               # Project documentation
+├── package.json            # Node.js dependencies (if needed)
+├── netlify.toml           # Netlify deployment config
+├── railway.json           # Railway deployment config
+├── assets/
+│   ├── css/
+│   │   └── styles.css     # Separated CSS (optional refactor)
+│   ├── js/
+│   │   └── app.js         # Separated JavaScript (optional refactor)
+│   └── images/
+│       └── icons/         # App icons and imagery
+├── api/                   # API endpoints for Railway deployment
+│   ├── search-jobs.js     # Job search endpoint
+│   └── health.js          # Health check endpoint
+└── docs/
+    ├── API.md             # API documentation
+    ├── DEPLOYMENT.md      # Deployment guide
+    └── CONTRIBUTING.md    # Development guidelines
+```
+
+## 🎨 Design System
+
+### Color Palette
+- **Primary Gradient**: `#667eea` to `#764ba2` (Purple-blue)
+- **Background**: `#f8fafc` (Light gray)
+- **Text Primary**: `#1e293b` (Dark slate)
+- **Text Secondary**: `#64748b` (Medium slate)
+- **Success**: `#16a34a` (Green)
+- **Warning**: `#d97706` (Orange)
+- **Error**: `#dc2626` (Red)
+
+### Typography
+- **Font Family**: System font stack (-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto)
+- **Headers**: Bold weights (600-700)
+- **Body**: Regular weight (400)
+- **Small Text**: Light weight (300)
+
+### Component Library
+- **Cards**: Rounded corners (16px), subtle shadows
+- **Buttons**: Gradient backgrounds, hover animations
+- **Forms**: Clean inputs with focus states
+- **Icons**: Emoji-based for universal compatibility
+
+## 🔄 API Integration
+
+### Claude API Usage
+The app integrates with Claude API for intelligent job searching:
+
+```javascript
+const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "anthropic-version": "2023-06-01",
+        "x-api-key": apiKey
+    },
+    body: JSON.stringify({
+        model: "claude-3-sonnet-20240229",
+        max_tokens: 2000,
+        messages: [{
+            role: "user",
+            content: searchQuery
+        }]
+    })
+});
+```
+
+### Job Search Queries
+Structured prompts for optimal job discovery:
+- Location-specific searches (Denver metro area)
+- Industry-focused queries (warehouse, customer service)
+- Company-specific searches (Amazon, UPS, FedEx)
+- Salary and experience level filtering
+
+## 🚀 Deployment Options
+
+### 1. Railway (Recommended for Full Features)
+- **Pros**: Server-side API calls, no CORS issues, environment variables
+- **Setup**: Connect GitHub repo, set environment variables, deploy
+- **Cost**: ~$5/month for basic usage
+- **Best For**: Production use with live API integration
+
+### 2. Netlify/Vercel (Good for Static Features)
+- **Pros**: Free hosting, easy deployment, custom domains
+- **Limitations**: Client-side API calls may have CORS issues
+- **Best For**: Demo versions and static content
+
+### 3. GitHub Pages (Simple Deployment)
+- **Pros**: Free, automatic deployment from repo
+- **Limitations**: Static hosting only, no server-side processing
+- **Best For**: Portfolio demonstrations
+
+## 📊 Performance Targets
+
+### Core Web Vitals
+- **First Contentful Paint**: < 1.5s
+- **Largest Contentful Paint**: < 2.5s
+- **Cumulative Layout Shift**: < 0.1
+- **First Input Delay**: < 100ms
+
+### Mobile Performance
+- **Load Time**: < 3s on 3G networks
+- **Bundle Size**: < 100KB total
+- **API Response**: < 2s for job searches
+- **Offline Capability**: Basic functionality without network
+
+## 🔒 Security Considerations
+
+### API Key Management
+- Never expose API keys in client-side code
+- Use environment variables for production
+- Implement rate limiting to prevent abuse
+- Validate all user inputs
+
+### Data Privacy
+- No personal data collection
+- Local storage only for preferences
+- HTTPS required for production
+- No tracking or analytics without consent
+
+## 🧪 Testing Strategy
+
+### Manual Testing
+- Test on real devices (iOS/Android)
+- Verify all job search functionality
+- Check responsive design breakpoints
+- Validate API error handling
+
+### Automated Testing (Future Enhancement)
+- Unit tests for JavaScript functions
+- Integration tests for API calls
+- E2E tests for user workflows
+- Performance monitoring
+
+## 🔮 Future Enhancements
+
+### Phase 2 Features
+- **Job Alerts**: Email/SMS notifications for new jobs
+- **Application Tracking**: Keep track of applied positions
+- **Resume Builder**: Simple resume creation tool
+- **Company Reviews**: Integration with employer rating systems
+
+### Phase 3 Features
+- **Advanced Filtering**: Salary ranges, benefits, remote options
+- **Map Integration**: Visual job location mapping
+- **Social Features**: Job sharing and recommendations
+- **Analytics Dashboard**: Job market insights and trends
+
+## 🤝 Contributing Guidelines
+
+### Development Workflow
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly on mobile devices
+5. Submit a pull request with detailed description
+
+### Code Standards
+- Use semantic HTML5 elements
+- Follow mobile-first CSS approach
+- Write clean, commented JavaScript
+- Maintain consistent indentation (2 spaces)
+- Optimize for performance and accessibility
+
+**Built with ❤️ for Denver job seekers**
+
+*Last Updated: July 31, 2025*
