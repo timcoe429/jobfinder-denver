@@ -27,19 +27,35 @@ app.post('/api/search-jobs', async (req, res) => {
                 max_tokens: 2000,
                 messages: [{
                     role: 'user',
-                    content: `Search for ${jobType} jobs in Denver, Colorado area. ${query || ''}
+                    content: `Find legitimate, quality ${jobType} jobs in Denver, Colorado area. Search criteria: ${query || ''}
+                    
+                    FOCUS ON:
+                    - Jobs paying $17+ per hour for customer service, $18+ for warehouse
+                    - Full-time positions with benefits
+                    - Direct hire opportunities (not temp agencies)
+                    - Legitimate companies with good reputations
+                    - Recent job postings (within last 30 days)
+                    
+                    FILTER OUT:
+                    - MLMs, pyramid schemes, commission-only jobs
+                    - Temp agency postings
+                    - Scam job listings
+                    - Jobs requiring upfront payments
+                    - Telemarketing/cold calling positions
                     
                     Return ONLY a JSON array with this structure:
                     [
                         {
                             "title": "Job Title",
-                            "company": "Company Name",
+                            "company": "Company Name", 
                             "location": "City, State",
-                            "date": "2025-07-31",
-                            "description": "Brief job description",
+                            "date": "2025-01-15",
+                            "description": "Brief job description including pay rate if available",
                             "url": "Application URL if available"
                         }
-                    ]`
+                    ]
+                    
+                    Include salary/hourly rate in the description when possible. Prioritize jobs with clear pay rates and benefits.`
                 }]
             })
         });

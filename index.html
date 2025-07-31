@@ -632,35 +632,7 @@
         </div>
     </section>
 
-    <!-- Search Section -->
-    <div class="container">
-        <div class="api-setup">
-            <div class="setup-header">
-                <div class="setup-icon">🔍</div>
-                <h2 class="setup-title">Search Denver Jobs</h2>
-                <p class="setup-description">
-                    AI-powered job search for warehouse and customer service positions in Denver.
-                </p>
-            </div>
-            <div class="setup-form">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    class="setup-input" 
-                    placeholder="Search for jobs (e.g., 'night shift warehouse' or 'remote customer service')..."
-                >
-                <select id="jobTypeSelect" class="setup-input" style="max-width: 200px;">
-                    <option value="warehouse">Warehouse</option>
-                    <option value="customer service">Customer Service</option>
-                </select>
-                <button id="searchBtn" class="setup-btn">
-                    🔍 Search Jobs
-                </button>
-            </div>
-            <div id="searchResults"></div>
-            <div class="message error-message" id="errorMessage"></div>
-        </div>
-    </div>
+
 
     <!-- Live Job Feeds Section -->
     <section class="job-feeds">
@@ -831,7 +803,7 @@
                 <div class="section-icon">🔗</div>
                 <h2 class="section-title">Quick Search Links</h2>
                 <p class="section-description">
-                    Direct links to popular job search sites and company career pages
+                    Powerful Google search operators that filter for quality jobs and eliminate scams
                 </p>
             </div>
 
@@ -842,25 +814,29 @@
                         <div class="category-icon warehouse-icon">📦</div>
                         <div>
                             <h3 class="category-title">Warehouse Search</h3>
-                            <p class="category-description">Search warehouse positions with advanced queries</p>
+                            <p class="category-description">Advanced Google searches for quality warehouse jobs</p>
                         </div>
                     </div>
                     <div class="link-list">
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Greenhouse - Warehouse</div>
-                            <div class="link-description">Search warehouse positions on Greenhouse</div>
+                        <a href='https://www.google.com/search?q="warehouse+associate"+OR+"warehouse+worker"+OR+"material+handler"+"Denver"+site:indeed.com+OR+site:glassdoor.com+OR+site:linkedin.com' target="_blank" class="quick-link">
+                            <div class="link-title">$18-25/hr Warehouse Jobs</div>
+                            <div class="link-description">High-paying warehouse positions on major job sites</div>
                         </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Lever - Warehouse</div>
-                            <div class="link-description">Warehouse jobs via Lever platform</div>
+                        <a href='https://www.google.com/search?q="warehouse"+"$20+per+hour"+OR+"$21+per+hour"+OR+"$22+per+hour"+"Denver"+OR+"Aurora"+OR+"Commerce+City"+-scam+-MLM' target="_blank" class="quick-link">
+                            <div class="link-title">$20+ Warehouse - No Scams</div>
+                            <div class="link-description">Legitimate high-pay warehouse jobs, scam-filtered</div>
                         </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Craigslist - Warehouse</div>
-                            <div class="link-description">Local warehouse job listings</div>
+                        <a href='https://www.google.com/search?q="night+shift"+"warehouse"+"Denver"+OR+"Thornton"+"benefits"+"full+time"-temp+-temporary' target="_blank" class="quick-link">
+                            <div class="link-title">Night Shift + Benefits</div>
+                            <div class="link-description">Permanent night warehouse jobs with benefits</div>
                         </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Indeed - Warehouse Denver</div>
-                            <div class="link-description">Comprehensive warehouse job search</div>
+                        <a href='https://www.google.com/search?q="forklift+operator"+"warehouse"+"Denver"+"$19"+OR+"$20"+OR+"$21"+site:indeed.com+OR+site:ziprecruiter.com' target="_blank" class="quick-link">
+                            <div class="link-title">Forklift Operators $19+</div>
+                            <div class="link-description">Certified forklift operator positions</div>
+                        </a>
+                        <a href='https://www.google.com/search?q="warehouse+supervisor"+"Denver"+"$25"+OR+"$26"+OR+"$27"+OR+"$28"+-staffing+-agency' target="_blank" class="quick-link">
+                            <div class="link-title">Warehouse Supervisor $25+</div>
+                            <div class="link-description">Direct hire supervisor roles, no agencies</div>
                         </a>
                     </div>
                 </div>
@@ -871,50 +847,29 @@
                         <div class="category-icon customer-service-icon">☎️</div>
                         <div>
                             <h3 class="category-title">Customer Service Search</h3>
-                            <p class="category-description">Find call center and support roles</p>
+                            <p class="category-description">Advanced searches for quality CS roles</p>
                         </div>
                     </div>
                     <div class="link-list">
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Greenhouse - Customer Service</div>
-                            <div class="link-description">Customer service roles on Greenhouse</div>
+                        <a href='https://www.google.com/search?q="customer+service+representative"+"$18"+OR+"$19"+OR+"$20"+"Denver"+OR+"remote"+"benefits"+-call+center+-telemarketing' target="_blank" class="quick-link">
+                            <div class="link-title">$18+ CS Rep - No Call Centers</div>
+                            <div class="link-description">Quality customer service, not telemarketing</div>
                         </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Lever - Customer Service</div>
-                            <div class="link-description">CS positions via Lever platform</div>
+                        <a href='https://www.google.com/search?q="remote+customer+service"+"work+from+home"+"Colorado"+"$17"+OR+"$18"+OR+"$19"+OR+"$20"+-scam+-MLM' target="_blank" class="quick-link">
+                            <div class="link-title">Remote CS $17-20/hr</div>
+                            <div class="link-description">Legitimate work from home opportunities</div>
                         </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Craigslist - Customer Service</div>
-                            <div class="link-description">Local customer service jobs</div>
+                        <a href='https://www.google.com/search?q="customer+success"+"Denver"+"$22"+OR+"$23"+OR+"$24"+OR+"$25"+"full+time"+"benefits"' target="_blank" class="quick-link">
+                            <div class="link-title">Customer Success $22+</div>
+                            <div class="link-description">Higher-level customer success roles</div>
                         </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Remote CS Jobs</div>
-                            <div class="link-description">Remote customer service opportunities</div>
+                        <a href='https://www.google.com/search?q="technical+support"+"customer+service"+"Denver"+"$20"+OR+"$21"+OR+"$22"+-outsourcing+-offshore' target="_blank" class="quick-link">
+                            <div class="link-title">Technical Support $20+</div>
+                            <div class="link-description">Tech-focused customer support roles</div>
                         </a>
-                    </div>
-                </div>
-
-                <!-- Direct Companies -->
-                <div class="link-category">
-                    <div class="category-header">
-                        <div class="category-icon" style="background: #dcfce7; color: #16a34a;">🏢</div>
-                        <div>
-                            <h3 class="category-title">Direct Companies</h3>
-                            <p class="category-description">Apply directly at major employers</p>
-                        </div>
-                    </div>
-                    <div class="link-list">
-                        <a href="#" class="quick-link">
-                            <div class="link-title">Amazon Fulfillment</div>
-                            <div class="link-description">Direct warehouse applications</div>
-                        </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">FedEx Careers</div>
-                            <div class="link-description">Package handler and driver positions</div>
-                        </a>
-                        <a href="#" class="quick-link">
-                            <div class="link-title">UPS Jobs</div>
-                            <div class="link-description">Warehouse and delivery opportunities</div>
+                        <a href='https://www.google.com/search?q="chat+support"+"customer+service"+"remote"+"Colorado"+"$16"+OR+"$17"+OR+"$18"+"-phone+calls"' target="_blank" class="quick-link">
+                            <div class="link-title">Chat Support - No Phones</div>
+                            <div class="link-description">Text-based customer support jobs</div>
                         </a>
                     </div>
                 </div>
@@ -923,26 +878,18 @@
     </section>
 
     <script>
-        // Job search functionality
-        document.getElementById('searchBtn').addEventListener('click', async function() {
-            const query = document.getElementById('searchInput').value;
-            const jobType = document.getElementById('jobTypeSelect').value;
-            const errorDiv = document.getElementById('errorMessage');
-            const resultsDiv = document.getElementById('searchResults');
-            const button = this;
-
-            // Clear previous results
-            errorDiv.textContent = '';
-            resultsDiv.innerHTML = '';
-
-            if (!query.trim()) {
-                errorDiv.textContent = 'Please enter a search term';
-                return;
-            }
+        // Live job feed functionality
+        async function refreshWarehouseJobs() {
+            const contentDiv = document.getElementById('warehouseJobs');
+            const lastUpdatedSpan = document.getElementById('warehouseLastUpdated');
 
             // Show loading state
-            button.textContent = '🔍 Searching...';
-            button.disabled = true;
+            contentDiv.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #64748b;">
+                    <div style="font-size: 24px; margin-bottom: 10px;">🔄</div>
+                    <div>Loading fresh warehouse jobs...</div>
+                </div>
+            `;
 
             try {
                 const response = await fetch('/api/search-jobs', {
@@ -951,69 +898,114 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        query: query,
-                        jobType: jobType
+                        query: 'warehouse jobs Denver Colorado $18 $19 $20 $21 $22 per hour full time benefits direct hire -temp -staffing -agency -scam -MLM forklift material handler warehouse associate',
+                        jobType: 'warehouse'
                     })
                 });
 
                 const data = await response.json();
 
                 if (data.success && data.jobs && data.jobs.length > 0) {
-                    // Display jobs
-                    resultsDiv.innerHTML = `
-                        <div style="margin-top: 20px;">
-                            <h3 style="color: #1e293b; margin-bottom: 15px;">Found ${data.jobs.length} jobs:</h3>
-                            <div style="display: grid; gap: 15px;">
-                                ${data.jobs.map(job => `
-                                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
-                                        <div style="font-weight: 600; color: #1e293b; margin-bottom: 5px;">${job.title || 'Job Title'}</div>
-                                        <div style="color: #667eea; margin-bottom: 5px;">${job.company || 'Company'}</div>
-                                        <div style="font-size: 0.9rem; color: #64748b; margin-bottom: 8px;">
-                                            📍 ${job.location || 'Denver, CO'} • 📅 ${job.date || 'Recent'}
-                                        </div>
-                                        <div style="color: #374151; line-height: 1.5; margin-bottom: 10px;">${job.description || 'Job description not available'}</div>
-                                        ${job.url ? `<a href="${job.url}" target="_blank" style="color: #667eea; text-decoration: none;">Apply Now →</a>` : ''}
-                                    </div>
-                                `).join('')}
+                    contentDiv.innerHTML = data.jobs.map(job => `
+                        <div class="job-item" style="cursor: pointer;" onclick="window.open('${job.url || '#'}', '_blank')">
+                            <div class="job-title">${job.title || 'Warehouse Position'}</div>
+                            <div class="job-company">${job.company || 'Company Name'}</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 ${job.location || 'Denver, CO'}</span>
+                                <span class="job-date">📅 ${job.date || new Date().toLocaleDateString()}</span>
                             </div>
+                            <div class="job-description">
+                                ${job.description || 'Job description not available'}
+                            </div>
+                            ${job.url ? `<button class="apply-btn" onclick="event.stopPropagation(); window.open('${job.url}', '_blank')" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px;">Apply Now</button>` : ''}
                         </div>
-                    `;
+                    `).join('');
+                    
+                    lastUpdatedSpan.textContent = new Date().toLocaleTimeString();
                 } else {
-                    resultsDiv.innerHTML = `
-                        <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; color: #92400e;">
-                            No jobs found. Try a different search term or job type.
+                    contentDiv.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #64748b;">
+                            <div style="font-size: 24px; margin-bottom: 10px;">📭</div>
+                            <div>No warehouse jobs found. Try refreshing in a few minutes.</div>
                         </div>
                     `;
                 }
             } catch (error) {
-                console.error('Search error:', error);
-                errorDiv.textContent = 'Search failed. Please try again.';
-            } finally {
-                // Reset button
-                button.textContent = '🔍 Search Jobs';
-                button.disabled = false;
+                console.error('Error loading warehouse jobs:', error);
+                contentDiv.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #dc2626;">
+                        <div style="font-size: 24px; margin-bottom: 10px;">⚠️</div>
+                        <div>Failed to load jobs. Please try again.</div>
+                        <button onclick="refreshWarehouseJobs()" style="margin-top: 15px; background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Retry</button>
+                    </div>
+                `;
             }
-        });
+        }
 
-        // Handle Enter key in search input
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('searchBtn').click();
-            }
-        });
+        async function refreshCustomerServiceJobs() {
+            const contentDiv = document.getElementById('customerServiceJobs');
 
-        // Handle AI Search buttons on existing job items
-        document.querySelectorAll('.ai-search-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const jobItem = this.closest('.job-item');
-                const title = jobItem.querySelector('.job-title')?.textContent || '';
-                const company = jobItem.querySelector('.job-company')?.textContent || '';
-                
-                if (title) {
-                    document.getElementById('searchInput').value = title;
-                    document.getElementById('searchBtn').click();
+            // Show loading state
+            contentDiv.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #64748b;">
+                    <div style="font-size: 24px; margin-bottom: 10px;">🔄</div>
+                    <div>Loading fresh customer service jobs...</div>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/search-jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: 'customer service Denver Colorado remote work from home $17 $18 $19 $20 $21 per hour benefits full time customer success technical support -call center -telemarketing -scam -MLM -commission only',
+                        jobType: 'customer service'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.jobs && data.jobs.length > 0) {
+                    contentDiv.innerHTML = data.jobs.map(job => `
+                        <div class="job-item" style="cursor: pointer;" onclick="window.open('${job.url || '#'}', '_blank')">
+                            <div class="job-title">${job.title || 'Customer Service Position'}</div>
+                            <div class="job-company">${job.company || 'Company Name'}</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 ${job.location || 'Denver, CO'}</span>
+                                <span class="job-date">📅 ${job.date || new Date().toLocaleDateString()}</span>
+                            </div>
+                            <div class="job-description">
+                                ${job.description || 'Job description not available'}
+                            </div>
+                            ${job.url ? `<button class="apply-btn" onclick="event.stopPropagation(); window.open('${job.url}', '_blank')" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px;">Apply Now</button>` : ''}
+                        </div>
+                    `).join('');
+                } else {
+                    contentDiv.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #64748b;">
+                            <div style="font-size: 24px; margin-bottom: 10px;">📭</div>
+                            <div>No customer service jobs found. Try refreshing in a few minutes.</div>
+                        </div>
+                    `;
                 }
-            });
+            } catch (error) {
+                console.error('Error loading customer service jobs:', error);
+                contentDiv.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #dc2626;">
+                        <div style="font-size: 24px; margin-bottom: 10px;">⚠️</div>
+                        <div>Failed to load jobs. Please try again.</div>
+                        <button onclick="refreshCustomerServiceJobs()" style="margin-top: 15px; background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-load jobs when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshWarehouseJobs();
+            refreshCustomerServiceJobs();
         });
     </script>
 </body>
