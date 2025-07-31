@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobFinder - Denver Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-icon::before {
+            content: '🎯';
+            font-size: 36px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* API Setup Section */
+        .api-setup {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin: -40px auto 40px;
+            padding: 30px;
+            position: relative;
+            z-index: 3;
+            max-width: 600px;
+        }
+
+        .setup-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .setup-icon {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .setup-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .setup-description {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .setup-form {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .setup-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .setup-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .setup-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .setup-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Job Feeds Section */
+        .job-feeds {
+            padding: 40px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .feeds-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .feed-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feed-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .feed-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .feed-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .feed-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .warehouse-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .customer-service-icon {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .feed-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .refresh-btn {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #64748b;
+            margin-left: auto;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .feed-subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .feed-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .feed-content {
+            padding: 0 24px 24px;
+        }
+
+        .job-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .job-item:last-child {
+            border-bottom: none;
+        }
+
+        .job-item:hover {
+            background: #f8fafc;
+            margin: 0 -24px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+
+        .job-company {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .job-details {
+            display: flex;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: #64748b;
+            flex-wrap: wrap;
+        }
+
+        .job-location,
+        .job-date {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .job-description {
+            color: #475569;
+            font-size: 0.9rem;
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .ai-search-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: transform 0.2s;
+        }
+
+        .ai-search-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .feed-stats {
+            padding: 16px 24px;
+            background: #f8fafc;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1e293b;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            padding: 40px 20px;
+            background: white;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .link-category {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .category-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quick-link {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            display: block;
+        }
+
+        .quick-link:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .link-description {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Tips Section */
+        .tips-section {
+            padding: 40px 20px;
+            background: #f8fafc;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .tip-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .tip-content {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: #94a3b8;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 640px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .setup-form {
+                flex-direction: row;
+            }
+
+            .feeds-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .links-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero {
+                padding: 80px 20px 100px;
+            }
+
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #f1f5f9;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon"></div>
+            <h1>JobFinder</h1>
+            <div class="hero-subtitle">Denver Edition</div>
+            <p class="hero-description">
+                Find quality warehouse and customer service jobs in the Denver area - no spam, just results.
+            </p>
+            <div class="hero-badges">
+                <span class="badge">📍 Denver Metro Area</span>
+                <span class="badge">🕒 Updated Daily</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Setup Section -->
+    <div class="container">
+        <div class="api-setup" id="apiSetup">
+            <div class="setup-header">
+                <div class="setup-icon">🔓</div>
+                <h2 class="setup-title">Unlock Real Job Feeds</h2>
+                <p class="setup-description">
+                    Get live job listings from multiple sources! Setup takes 2 minutes and pulls fresh jobs automatically.
+                </p>
+            </div>
+            <div class="setup-form">
+                <input 
+                    type="password" 
+                    id="apiKeyInput" 
+                    class="setup-input" 
+                    placeholder="Enter Claude API key..."
+                >
+                <button id="setupBtn" class="setup-btn">
+                    ⚙️ Setup APIs
+                </button>
+            </div>
+            <div class="message success-message" id="successMessage"></div>
+            <div class="message error-message" id="errorMessage"></div>
+        </div>
+    </div>
+
+    <!-- Live Job Feeds Section -->
+    <section class="job-feeds">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2 class="section-title">Live Job Feeds</h2>
+                <p class="section-description">
+                    Real job listings updated automatically from multiple sources
+                </p>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p>Searching for fresh job listings...</p>
+            </div>
+
+            <div class="feeds-grid">
+                <!-- Warehouse Jobs Feed -->
+                <div class="feed-card">
+                    <div class="feed-header">
+                        <div class="feed-title-row">
+                            <div class="feed-icon warehouse-icon">📦</div>
+                            <div>
+                                <h3 class="feed-title">Live Warehouse Jobs</h3>
+                                <p class="feed-subtitle">Fresh warehouse listings from RSS feeds and job sites</p>
+                            </div>
+                            <button class="refresh-btn" onclick="refreshWarehouseJobs()">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                        <div class="feed-meta">
+                            <span>📅 Last updated: <span id="warehouseLastUpdated">12:14:35 PM</span></span>
+                        </div>
+                    </div>
+                    <div class="feed-content" id="warehouseJobs">
+                        <div class="job-item">
+                            <div class="job-title">Part Time Warehouse Jobs</div>
+                            <div class="job-company">Various Employers</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 Denver, CO</span>
+                                <span class="job-date">📅 2025-07-30</span>
+                            </div>
+                            <div class="job-description">
+                                Multiple part-time warehouse positions including Handler, Warehouse, In-store Warehouse Worker - Replenishment, Overnight Part-Time Warehouse Selector, and...
+                            </div>
+                            <button class="ai-search-btn">AI Search</button>
+                        </div>
+                        <div class="job-item">
+                            <div class="job-title">Warehouse Associate</div>
+                            <div class="job-company">Grainger</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 95 S Tejon St, Denver, CO 80223</span>
+                                <span class="job-date">📅 2025-07-26</span>
+                            </div>
+                            <div class="job-description">
+                                Full-time positions available. Day Shift: Mon - Fri 10:00am - Close. Night shift: Sun-Wed 10:00pm - 8:30am (4x10). Tasks include unloading, sorting, labeling, replenishing...
+                            </div>
+                            <button class="ai-search-btn">AI Search</button>
+                        </div>
+                        <div class="job-item">
+                            <div class="job-title">Warehouse Associate</div>
+                            <div class="job-company">Adecco</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 Denver, Colorado</span>
+                                <span class="job-date">📅 2025-07-24</span>
+                            </div>
+                            <div class="job-description">
+                                Warehouse Associate position paying $22.00 per hour. Immediate consideration. Warehouse or Driver experience is a must, forklift certified is a plus...
+                            </div>
+                            <button class="ai-search-btn">AI Search</button>
+                        </div>
+                    </div>
+                    <div class="feed-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">RSS: 0</div>
+                            <div class="stat-label">jobs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">Perplexity AI: 3</div>
+                            <div class="stat-label">jobs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">Perplexity AI: 3</div>
+                            <div class="stat-label">jobs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Service Jobs Feed -->
+                <div class="feed-card">
+                    <div class="feed-header">
+                        <div class="feed-title-row">
+                            <div class="feed-icon customer-service-icon">☎️</div>
+                            <div>
+                                <h3 class="feed-title">Live Customer Service Jobs</h3>
+                                <p class="feed-subtitle">Current customer service openings across Denver</p>
+                            </div>
+                            <button class="refresh-btn" onclick="refreshCustomerServiceJobs()">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                        <div class="feed-meta">
+                            <span>📅 Last updated: <span id="customerServiceLastUpdated">12:14:35 PM</span></span>
+                        </div>
+                    </div>
+                    <div class="feed-content" id="customerServiceJobs">
+                        <div class="job-item">
+                            <div class="job-title">Customer Success Specialist</div>
+                            <div class="job-company">Undisclosed</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 Denver, CO (Remote option available)</span>
+                                <span class="job-date">📅 2025-07-31</span>
+                            </div>
+                            <div class="job-description">
+                                Coordinate and assist with in-person or remote customer training, onboarding, and resources. Requires maintaining a high level of customer service professionalism...
+                            </div>
+                            <button class="ai-search-btn">AI Search</button>
+                        </div>
+                        <div class="job-item">
+                            <div class="job-title">Customer Service Representative - Remote</div>
+                            <div class="job-company">Undisclosed</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 Golden, CO (Remote)</span>
+                                <span class="job-date">📅 2025-07-31</span>
+                            </div>
+                            <div class="job-description">
+                                Requires 1+ years of experience in customer service environments using phones and computers. Remote position supporting customer service operations...
+                            </div>
+                            <button class="ai-search-btn">AI Search</button>
+                        </div>
+                        <div class="job-item">
+                            <div class="job-title">HRES Contact Center Representative I - Remote</div>
+                            <div class="job-company">Undisclosed</div>
+                            <div class="job-details">
+                                <span class="job-location">📍 Denver, CO (Remote)</span>
+                                <span class="job-date">📅 2025-07-31</span>
+                            </div>
+                            <div class="job-description">
+                                Adapt communication style to different customer groups, demonstrate attention to detail in gathering required information. Remote opportunity...
+                            </div>
+                            <button class="ai-search-btn">AI Search</button>
+                        </div>
+                    </div>
+                    <div class="feed-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">RSS: 0</div>
+                            <div class="stat-label">jobs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">Perplexity AI: 8</div>
+                            <div class="stat-label">jobs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">Perplexity AI: 8</div>
+                            <div class="stat-label">jobs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Search Links Section -->
+    <section class="quick-links">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">🔗</div>
+                <h2 class="section-title">Quick Search Links</h2>
+                <p class="section-description">
+                    Direct links to popular job search sites and company career pages
+                </p>
+            </div>
+
+            <div class="links-grid">
+                <!-- Warehouse Search -->
+                <div class="link-category">
+                    <div class="category-header">
+                        <div class="category-icon warehouse-icon">📦</div>
+                        <div>
+                            <h3 class="category-title">Warehouse Search</h3>
+                            <p class="category-description">Search warehouse positions with advanced queries</p>
+                        </div>
+                    </div>
+                    <div class="link-list">
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Greenhouse - Warehouse</div>
+                            <div class="link-description">Search warehouse positions on Greenhouse</div>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Lever - Warehouse</div>
+                            <div class="link-description">Warehouse jobs via Lever platform</div>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Craigslist - Warehouse</div>
+                            <div class="link-description">Local warehouse job listings</div>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Indeed - Warehouse Denver</div>
+                            <div class="link-description">Comprehensive warehouse job search</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Customer Service Search -->
+                <div class="link-category">
+                    <div class="category-header">
+                        <div class="category-icon customer-service-icon">☎️</div>
+                        <div>
+                            <h3 class="category-title">Customer Service Search</h3>
+                            <p class="category-description">Find call center and support roles</p>
+                        </div>
+                    </div>
+                    <div class="link-list">
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Greenhouse - Customer Service</div>
+                            <div class="link-description">Customer service roles on Greenhouse</div>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Lever - Customer Service</div>
+                            <div class="link-description">CS positions via Lever platform</div>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Craigslist - Customer Service</div>
+                            <div class="link-description">Local customer service jobs</div>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Remote CS Jobs</div>
+                            <div class="link-description">Remote customer service opportunities</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Direct Companies -->
+                <div class="link-category">
+                    <div class="category-header">
+                        <div class="category-icon" style="background: #dcfce7; color: #16a34a;">🏢</div>
+                        <div>
+                            <h3 class="category-title">Direct Companies</h3>
+                            <p class="category-description">Apply directly at major employers</p>
+                        </div>
+                    </div>
+                    <div class="link-list">
+                        <a href="#" class="quick-link">
+                            <div class="link-title">Amazon Fulfillment</div>
+                            <div class="link-description">Direct warehouse applications</div>
+                        </a>
+                        <a href="#" class="quick-link">
