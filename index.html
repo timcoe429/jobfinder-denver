@@ -105,6 +105,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
         }
 
         /* API Setup Section */
@@ -555,13 +556,15 @@
 
         .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
         }
         
-        @media (max-width: 500px) {
+        @media (max-width: 900px) {
             .links-grid {
-            grid-template-columns: 1fr;
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
         }
 
@@ -569,9 +572,13 @@
             background: white;
             border: 2px solid #e2e8f0;
             border-radius: 16px;
-            padding: 24px;
+            padding: 28px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             transition: all 0.2s;
+            width: 100%;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
         }
         
         .link-category:hover {
@@ -613,19 +620,21 @@
         .link-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
+            flex: 1;
         }
 
         .quick-link {
             background: #fafbfc;
             border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 18px;
+            border-radius: 12px;
+            padding: 20px;
             text-decoration: none;
             color: inherit;
             transition: all 0.2s;
             display: block;
             position: relative;
+            width: 100%;
         }
 
         .quick-link:hover {
