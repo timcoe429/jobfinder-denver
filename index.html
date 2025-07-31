@@ -240,7 +240,7 @@
             margin-top: 10px;
         }
 
-        .build-btn, .optimize-btn, .use-optimized-btn {
+        .build-btn {
             padding: 14px 28px;
             border: none;
             border-radius: 8px;
@@ -248,9 +248,6 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.2s;
-        }
-
-        .build-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
@@ -260,41 +257,7 @@
             box-shadow: 0 8px 25px -3px rgba(102, 126, 234, 0.3);
         }
 
-        .optimize-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-        }
 
-        .optimize-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px -3px rgba(16, 185, 129, 0.3);
-        }
-
-        .use-optimized-btn {
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            margin-top: 15px;
-        }
-
-        .use-optimized-btn:hover {
-            background: #5a67d8;
-        }
-
-        .optimization-result {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f0fdf4;
-            border-radius: 8px;
-            border: 2px solid #bbf7d0;
-        }
-
-        .optimization-result h4 {
-            color: #065f46;
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
 
         .search-preview {
             margin-top: 25px;
@@ -563,7 +526,7 @@
         
         @media (max-width: 900px) {
             .links-grid {
-                grid-template-columns: 1fr;
+            grid-template-columns: 1fr;
                 gap: 30px;
             }
         }
@@ -833,7 +796,26 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="jobTypeInput">Job Type</label>
-                            <input type="text" id="jobTypeInput" placeholder="Try: warehouse associate, customer service, forklift operator, night shift" class="form-input">
+                            <select id="jobTypeSelect" class="form-input">
+                                <option value="">Select a job type...</option>
+                                <optgroup label="Warehouse Jobs">
+                                    <option value="warehouse associate,material handler,warehouse worker,order picker,forklift operator">Warehouse Associate</option>
+                                    <option value="forklift operator,warehouse associate,material handler">Forklift Operator</option>
+                                    <option value="material handler,warehouse associate,inventory associate">Material Handler</option>
+                                    <option value="order picker,warehouse associate,picker packer">Order Picker</option>
+                                    <option value="shipping receiving,warehouse associate,dock worker">Shipping & Receiving</option>
+                                    <option value="warehouse supervisor,warehouse lead,warehouse manager">Warehouse Supervisor</option>
+                                </optgroup>
+                                <optgroup label="Customer Service Jobs">
+                                    <option value="customer service representative,customer service rep,CSR,call center">Customer Service Rep</option>
+                                    <option value="customer success,customer success specialist,account manager">Customer Success</option>
+                                    <option value="technical support,tech support,customer support,help desk">Technical Support</option>
+                                    <option value="chat support,customer service,online support">Chat Support</option>
+                                    <option value="phone support,customer service representative,call center">Phone Support</option>
+                                    <option value="customer service manager,CS manager,customer service supervisor">Customer Service Manager</option>
+                                </optgroup>
+                            </select>
+                            <input type="text" id="customJobType" placeholder="Or enter custom job type..." class="form-input" style="margin-top: 10px;">
             </div>
                         <div class="form-group">
                             <label for="salaryInput">Minimum Pay</label>
@@ -865,7 +847,6 @@
                                 <option value="Arvada">Arvada</option>
                                 <option value="Commerce City">Commerce City</option>
                                 <option value="remote">Remote</option>
-                                <option value="Denver metro">Entire Denver Metro</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -899,18 +880,9 @@
                     <div class="builder-actions">
                         <button id="buildSearchBtn" class="build-btn">
                             🔍 Build & Search
-                        </button>
-                        <button id="optimizeQueryBtn" class="optimize-btn">
-                            🤖 Optimize with AI
-                        </button>
-                    </div>
-
-                    <div id="optimizationResult" class="optimization-result" style="display: none;">
-                        <h4>AI-Optimized Search:</h4>
-                        <div id="optimizedQuery" class="search-query"></div>
-                        <button id="useOptimizedBtn" class="use-optimized-btn">Use This Search</button>
-                    </div>
-                    </div>
+                            </button>
+                        </div>
+                </div>
             </div>
         </div>
     </section>
@@ -999,7 +971,8 @@
     <script>
         // Google Search Builder functionality
         function buildSearchQuery() {
-            const jobType = document.getElementById('jobTypeInput').value.trim();
+            const jobTypeSelect = document.getElementById('jobTypeSelect').value;
+            const customJobType = document.getElementById('customJobType').value.trim();
             const salary = document.getElementById('salaryInput').value;
             const location = document.getElementById('locationInput').value;
             const shift = document.getElementById('shiftInput').value;
@@ -1008,7 +981,8 @@
 
             let query = '';
 
-            // Job type (required)
+            // Job type (required) - use dropdown or custom input
+            const jobType = jobTypeSelect || customJobType;
             if (jobType) {
                 // Split job type into keywords and wrap in quotes for exact phrases
                 const jobKeywords = jobType.split(',').map(k => `"${k.trim()}"`).join(' OR ');
@@ -1020,9 +994,6 @@
             // Location
             if (location && location !== 'remote') {
                 query += ` "${location}"`;
-                if (location === 'Denver metro') {
-                    query += ' OR "Aurora" OR "Thornton" OR "Westminster" OR "Arvada"';
-                }
             } else if (location === 'remote') {
                 query += ' "remote" OR "work from home"';
             }
@@ -1065,66 +1036,17 @@
             return query.trim();
         }
 
-        async function optimizeQuery() {
-            const jobType = document.getElementById('jobTypeInput').value.trim();
-            const salary = document.getElementById('salaryInput').value;
-            const location = document.getElementById('locationInput').value;
-            const shift = document.getElementById('shiftInput').value;
-            const requirements = document.getElementById('requirementsInput').value.trim();
-            const filterScams = document.getElementById('filterScamsCheck').checked;
+        function executeSearch() {
+            const jobTypeSelect = document.getElementById('jobTypeSelect').value;
+            const customJobType = document.getElementById('customJobType').value.trim();
             
-            if (!jobType) {
-                alert('Please enter a job type first!');
+            if (!jobTypeSelect && !customJobType) {
+                alert('Please select a job type or enter a custom one!');
                 return;
             }
 
-            const button = document.getElementById('optimizeQueryBtn');
-            const resultDiv = document.getElementById('optimizationResult');
-            
-            // Show loading state
-            button.textContent = '🤖 Optimizing...';
-            button.disabled = true;
-
-            try {
-                const response = await fetch('/api/optimize-search', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        jobType, salary, location, shift, requirements, filterScams
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.success && data.optimization) {
-                    const optimizedQueryDiv = document.getElementById('optimizedQuery');
-                    optimizedQueryDiv.textContent = data.optimization.optimizedQuery;
-                    resultDiv.style.display = 'block';
-                    
-                    // Store the optimized query for use
-                    window.currentOptimizedQuery = data.optimization.optimizedQuery;
-                } else {
-                    alert('Failed to optimize search. Please try again.');
-                }
-            } catch (error) {
-                console.error('Optimization error:', error);
-                alert('Failed to optimize search. Please try again.');
-            } finally {
-                button.textContent = '🤖 Optimize with AI';
-                button.disabled = false;
-            }
-        }
-
-        function executeSearch() {
             const query = buildSearchQuery();
             
-            if (query.includes('"jobs"') && query.length < 20) {
-                alert('Please enter a job type to build a search!');
-                return;
-            }
-
             // Encode the query for URL
             const encodedQuery = encodeURIComponent(query);
             const googleUrl = `https://www.google.com/search?q=${encodedQuery}`;
@@ -1133,22 +1055,14 @@
             window.open(googleUrl, '_blank');
         }
 
-        function useOptimizedSearch() {
-            if (window.currentOptimizedQuery) {
-                const encodedQuery = encodeURIComponent(window.currentOptimizedQuery);
-                const googleUrl = `https://www.google.com/search?q=${encodedQuery}`;
-                window.open(googleUrl, '_blank');
-            }
-        }
+
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('buildSearchBtn').addEventListener('click', executeSearch);
-            document.getElementById('optimizeQueryBtn').addEventListener('click', optimizeQuery);
-            document.getElementById('useOptimizedBtn').addEventListener('click', useOptimizedSearch);
 
             // Handle Enter key in text inputs
-            document.getElementById('jobTypeInput').addEventListener('keypress', function(e) {
+            document.getElementById('customJobType').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') executeSearch();
             });
             document.getElementById('requirementsInput').addEventListener('keypress', function(e) {
