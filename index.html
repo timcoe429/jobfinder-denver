@@ -978,24 +978,42 @@
             const shift = document.getElementById('shiftInput').value;
             const requirements = document.getElementById('requirementsInput').value.trim();
             const filterScams = document.getElementById('filterScamsCheck').checked;
+            const searchSource = document.getElementById('searchSourceInput').value;
+            const timeFilter = document.getElementById('timeFilterInput').value;
 
             let query = '';
+
+            // Site restriction based on search source
+            if (searchSource === 'standard') {
+                query += 'site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com';
+            } else if (searchSource === 'company') {
+                query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/)';
+            } else if (searchSource === 'craigslist') {
+                query += 'site:craigslist.org';
+            } else if (searchSource === 'all') {
+                query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/ OR site:craigslist.org)';
+            }
 
             // Job type (required) - use dropdown or custom input
             const jobType = jobTypeSelect || customJobType;
             if (jobType) {
                 // Split job type into keywords and wrap in quotes for exact phrases
                 const jobKeywords = jobType.split(',').map(k => `"${k.trim()}"`).join(' OR ');
-                query += jobKeywords;
+                query += ` (${jobKeywords})`;
             } else {
-                query += '"jobs"';
+                query += ' "jobs"';
             }
 
-            // Location
+            // Location (important for company career pages)
             if (location && location !== 'remote') {
-                query += ` "${location}"`;
+                query += ` ("${location}" OR "Colorado" OR "CO")`;
             } else if (location === 'remote') {
-                query += ' "remote" OR "work from home"';
+                query += ' ("remote" OR "work from home")';
+            } else {
+                // Default to Colorado for company searches
+                if (searchSource === 'company' || searchSource === 'all') {
+                    query += ' ("Colorado" OR "CO" OR "Denver")';
+                }
             }
 
             // Salary filtering
@@ -1022,8 +1040,14 @@
                 query += ` ${reqKeywords}`;
             }
 
-            // Site targeting for better results
-            query += ' (site:indeed.com OR site:glassdoor.com OR site:linkedin.com OR site:ziprecruiter.com)';
+            // Time filtering
+            if (timeFilter) {
+                const daysAgo = parseInt(timeFilter);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - daysAgo);
+                const dateString = cutoffDate.toISOString().split('T')[0]; // YYYY-MM-DD format
+                query += ` after:${dateString}`;
+            }
 
             // Filter out scams and low-quality jobs
             if (filterScams) {
@@ -1031,6 +1055,9 @@
                 query += ' -"work from home kit" -"envelope stuffing" -"data entry scam"';
                 query += ' -temp -temporary -staffing -agency -"staffing agency"';
                 query += ' -"make money fast" -"easy money" -"no experience needed to earn"';
+                
+                // Additional exclusions for aggregation pages
+                query += ' -"jobs available" -"employment" -"jobs in"';
             }
 
             return query.trim();
