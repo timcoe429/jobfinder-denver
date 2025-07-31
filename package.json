@@ -2,7 +2,7 @@
   "name": "jobfinder-denver",
   "version": "1.0.0",
   "description": "Mobile-first job search app for Denver warehouse and customer service positions",
-  "main": "index.html",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "live-server --port=3000",
