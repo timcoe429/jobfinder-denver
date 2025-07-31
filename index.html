@@ -632,28 +632,32 @@
         </div>
     </section>
 
-    <!-- API Setup Section -->
+    <!-- Search Section -->
     <div class="container">
-        <div class="api-setup" id="apiSetup">
+        <div class="api-setup">
             <div class="setup-header">
-                <div class="setup-icon">🔓</div>
-                <h2 class="setup-title">Unlock Real Job Feeds</h2>
+                <div class="setup-icon">🔍</div>
+                <h2 class="setup-title">Search Denver Jobs</h2>
                 <p class="setup-description">
-                    Get live job listings from multiple sources! Setup takes 2 minutes and pulls fresh jobs automatically.
+                    AI-powered job search for warehouse and customer service positions in Denver.
                 </p>
             </div>
             <div class="setup-form">
                 <input 
-                    type="password" 
-                    id="apiKeyInput" 
+                    type="text" 
+                    id="searchInput" 
                     class="setup-input" 
-                    placeholder="Enter Claude API key..."
+                    placeholder="Search for jobs (e.g., 'night shift warehouse' or 'remote customer service')..."
                 >
-                <button id="setupBtn" class="setup-btn">
-                    ⚙️ Setup APIs
+                <select id="jobTypeSelect" class="setup-input" style="max-width: 200px;">
+                    <option value="warehouse">Warehouse</option>
+                    <option value="customer service">Customer Service</option>
+                </select>
+                <button id="searchBtn" class="setup-btn">
+                    🔍 Search Jobs
                 </button>
             </div>
-            <div class="message success-message" id="successMessage"></div>
+            <div id="searchResults"></div>
             <div class="message error-message" id="errorMessage"></div>
         </div>
     </div>
@@ -905,3 +909,112 @@
                             <div class="link-description">Direct warehouse applications</div>
                         </a>
                         <a href="#" class="quick-link">
+                            <div class="link-title">FedEx Careers</div>
+                            <div class="link-description">Package handler and driver positions</div>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <div class="link-title">UPS Jobs</div>
+                            <div class="link-description">Warehouse and delivery opportunities</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Job search functionality
+        document.getElementById('searchBtn').addEventListener('click', async function() {
+            const query = document.getElementById('searchInput').value;
+            const jobType = document.getElementById('jobTypeSelect').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const resultsDiv = document.getElementById('searchResults');
+            const button = this;
+
+            // Clear previous results
+            errorDiv.textContent = '';
+            resultsDiv.innerHTML = '';
+
+            if (!query.trim()) {
+                errorDiv.textContent = 'Please enter a search term';
+                return;
+            }
+
+            // Show loading state
+            button.textContent = '🔍 Searching...';
+            button.disabled = true;
+
+            try {
+                const response = await fetch('/api/search-jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        jobType: jobType
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.jobs && data.jobs.length > 0) {
+                    // Display jobs
+                    resultsDiv.innerHTML = `
+                        <div style="margin-top: 20px;">
+                            <h3 style="color: #1e293b; margin-bottom: 15px;">Found ${data.jobs.length} jobs:</h3>
+                            <div style="display: grid; gap: 15px;">
+                                ${data.jobs.map(job => `
+                                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
+                                        <div style="font-weight: 600; color: #1e293b; margin-bottom: 5px;">${job.title || 'Job Title'}</div>
+                                        <div style="color: #667eea; margin-bottom: 5px;">${job.company || 'Company'}</div>
+                                        <div style="font-size: 0.9rem; color: #64748b; margin-bottom: 8px;">
+                                            📍 ${job.location || 'Denver, CO'} • 📅 ${job.date || 'Recent'}
+                                        </div>
+                                        <div style="color: #374151; line-height: 1.5; margin-bottom: 10px;">${job.description || 'Job description not available'}</div>
+                                        ${job.url ? `<a href="${job.url}" target="_blank" style="color: #667eea; text-decoration: none;">Apply Now →</a>` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; color: #92400e;">
+                            No jobs found. Try a different search term or job type.
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                errorDiv.textContent = 'Search failed. Please try again.';
+            } finally {
+                // Reset button
+                button.textContent = '🔍 Search Jobs';
+                button.disabled = false;
+            }
+        });
+
+        // Handle Enter key in search input
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('searchBtn').click();
+            }
+        });
+
+        // Handle AI Search buttons on existing job items
+        document.querySelectorAll('.ai-search-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const jobItem = this.closest('.job-item');
+                const title = jobItem.querySelector('.job-title')?.textContent || '';
+                const company = jobItem.querySelector('.job-company')?.textContent || '';
+                
+                if (title) {
+                    document.getElementById('searchInput').value = title;
+                    document.getElementById('searchBtn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
