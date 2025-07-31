@@ -1007,7 +1007,7 @@
             if (searchSource === 'standard') {
                 query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:ziprecruiter.com OR site:monster.com)';
             } else if (searchSource === 'company') {
-                query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/ OR site:indeed.com OR site:ziprecruiter.com)';
+                query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/)';
             } else if (searchSource === 'craigslist') {
                 query += 'site:craigslist.org';
             } else if (searchSource === 'all') {
