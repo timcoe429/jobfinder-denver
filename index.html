@@ -818,6 +818,26 @@
                             <input type="text" id="customJobType" placeholder="Or enter custom job type..." class="form-input" style="margin-top: 10px;">
             </div>
                         <div class="form-group">
+                            <label for="searchSourceInput">Search Where</label>
+                            <select id="searchSourceInput" class="form-input">
+                                <option value="standard">Standard Job Sites (Indeed, LinkedIn, Glassdoor)</option>
+                                <option value="company">Company Career Pages (Premium Jobs)</option>
+                                <option value="craigslist">Craigslist</option>
+                                <option value="all">All Sources</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="timeFilterInput">Posted Within</label>
+                            <select id="timeFilterInput" class="form-input">
+                                <option value="">Any Time</option>
+                                <option value="7">Last 7 Days</option>
+                                <option value="30">Last 30 Days</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="salaryInput">Minimum Pay</label>
                             <select id="salaryInput" class="form-input">
                                 <option value="">Any Pay</option>
