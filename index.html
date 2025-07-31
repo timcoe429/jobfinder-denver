@@ -1031,15 +1031,10 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="locationInput">Location</label>
+                            <label for="locationInput">Location (Optional)</label>
                             <select id="locationInput" class="form-input">
-                                <option value="Denver">Denver</option>
-                                <option value="Aurora">Aurora</option>
-                                <option value="Thornton">Thornton</option>
-                                <option value="Westminster">Westminster</option>
-                                <option value="Arvada">Arvada</option>
-                                <option value="Commerce City">Commerce City</option>
-                                <option value="remote">Remote</option>
+                                <option value="">Near Me (Auto-Local)</option>
+                                <option value="remote">Remote Only</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1176,16 +1171,18 @@
 
             let query = '';
 
-            // Site restriction based on search source
+            // Search approach based on source
             if (searchSource === 'standard') {
-                query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:ziprecruiter.com OR site:monster.com)';
+                // No site restrictions - let Google Jobs algorithm work with local bias
+                query = '';
             } else if (searchSource === 'company') {
                 query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/)';
                 query += ' -site:indeed.com -site:ziprecruiter.com -site:glassdoor.com -site:monster.com -site:linkedin.com';
             } else if (searchSource === 'craigslist') {
                 query += 'site:craigslist.org';
             } else if (searchSource === 'all') {
-                query += '(site:indeed.com OR site:linkedin.com/jobs OR site:glassdoor.com OR site:ziprecruiter.com OR site:monster.com OR site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/ OR site:craigslist.org)';
+                // Let Google Jobs work + include company sites
+                query = '';
             }
 
             // Job type (required) - use dropdown or custom input
@@ -1198,11 +1195,13 @@
                 query += ' "jobs"';
             }
 
-            // Location (simplified - Google handles local bias automatically)
-            if (location && location === 'remote') {
+            // Location handling
+            if (location === 'remote') {
                 query += ' ("remote" OR "work from home")';
+            } else {
+                // Add "near me" for better local bias
+                query += ' "near me"';
             }
-            // For local searches, Google already knows your location and prioritizes nearby results
 
             // Salary filtering - more flexible for company searches
             if (salary) {
@@ -1244,13 +1243,15 @@
                 query += ` after:${dateString}`;
             }
 
-            // Minimal spam filtering (only the most obvious scams)
+            // Filter out sketchy job boards and scams
             if (filterScams) {
                 if (searchSource === 'company') {
                     // No filtering for company career pages (they're legitimate)
                 } else {
-                    // Only filter the most obvious scams on job aggregation sites
-                    query += ' -scam -MLM';
+                    // Filter obvious scams and sketchy job boards
+                    query += ' -scam -MLM -"Apply on" -"job posting site"';
+                    query += ' -site:kget.com -site:ksnt.com -site:khon2.com';
+                    query += ' -site:abc7news.com -site:fox21news.com';
                 }
             }
 
