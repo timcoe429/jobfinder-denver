@@ -239,7 +239,7 @@
             margin-top: 10px;
         }
 
-        .build-btn, .preview-btn {
+        .build-btn, .optimize-btn, .use-optimized-btn {
             padding: 14px 28px;
             border: none;
             border-radius: 8px;
@@ -259,14 +259,40 @@
             box-shadow: 0 8px 25px -3px rgba(102, 126, 234, 0.3);
         }
 
-        .preview-btn {
-            background: #f3f4f6;
-            color: #374151;
-            border: 2px solid #e5e7eb;
+        .optimize-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
         }
 
-        .preview-btn:hover {
-            background: #e5e7eb;
+        .optimize-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -3px rgba(16, 185, 129, 0.3);
+        }
+
+        .use-optimized-btn {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        .use-optimized-btn:hover {
+            background: #5a67d8;
+        }
+
+        .optimization-result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 8px;
+            border: 2px solid #bbf7d0;
+        }
+
+        .optimization-result h4 {
+            color: #065f46;
+            margin-bottom: 10px;
+            font-size: 1rem;
         }
 
         .search-preview {
@@ -529,21 +555,37 @@
 
         .links-grid {
             display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+        
+        @media (max-width: 500px) {
+            .links-grid {
             grid-template-columns: 1fr;
-            gap: 24px;
+            }
         }
 
         .link-category {
-            background: #f8fafc;
+            background: white;
+            border: 2px solid #e2e8f0;
             border-radius: 16px;
             padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+        
+        .link-category:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px -3px rgba(102, 126, 234, 0.15);
         }
 
         .category-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f1f5f9;
         }
 
         .category-icon {
@@ -575,26 +617,29 @@
         }
 
         .quick-link {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
+            background: #fafbfc;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 18px;
             text-decoration: none;
             color: inherit;
             transition: all 0.2s;
             display: block;
+            position: relative;
         }
 
         .quick-link:hover {
+            background: white;
             border-color: #667eea;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -3px rgba(102, 126, 234, 0.2);
         }
 
         .link-title {
-            font-weight: 600;
+            font-weight: 700;
             color: #1e293b;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            font-size: 1.05rem;
         }
 
         .link-description {
@@ -780,7 +825,7 @@
                         <div class="form-group">
                             <label for="jobTypeInput">Job Type</label>
                             <input type="text" id="jobTypeInput" placeholder="Try: warehouse associate, customer service, forklift operator, night shift" class="form-input">
-                        </div>
+            </div>
                         <div class="form-group">
                             <label for="salaryInput">Minimum Pay</label>
                             <select id="salaryInput" class="form-input">
@@ -797,8 +842,8 @@
                                 <option value="40000">$40k+ salary</option>
                                 <option value="45000">$45k+ salary</option>
                             </select>
+                            </div>
                         </div>
-                    </div>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -823,15 +868,15 @@
                                 <option value="evening shift">Evening Shift</option>
                                 <option value="weekend">Weekend</option>
                             </select>
-                        </div>
                     </div>
+                            </div>
 
                     <div class="form-row">
                         <div class="form-group full-width">
                             <label for="requirementsInput">Requirements/Keywords</label>
                             <input type="text" id="requirementsInput" placeholder="Try: benefits, full time, no experience needed, health insurance, 401k" class="form-input">
+                            </div>
                         </div>
-                    </div>
 
                     <div class="form-row">
                         <div class="form-group full-width">
@@ -839,23 +884,24 @@
                                 <input type="checkbox" id="filterScamsCheck" checked> 
                                 Filter out scams, MLMs, and temp agencies
                             </label>
-                        </div>
                     </div>
+                </div>
 
                     <div class="builder-actions">
                         <button id="buildSearchBtn" class="build-btn">
                             🔍 Build & Search
                         </button>
-                        <button id="previewSearchBtn" class="preview-btn">
-                            👁️ Preview Search
+                        <button id="optimizeQueryBtn" class="optimize-btn">
+                            🤖 Optimize with AI
                         </button>
                     </div>
 
-                    <div id="searchPreview" class="search-preview" style="display: none;">
-                        <h4>Generated Search:</h4>
-                        <div id="searchQuery" class="search-query"></div>
+                    <div id="optimizationResult" class="optimization-result" style="display: none;">
+                        <h4>AI-Optimized Search:</h4>
+                        <div id="optimizedQuery" class="search-query"></div>
+                        <button id="useOptimizedBtn" class="use-optimized-btn">Use This Search</button>
                     </div>
-                </div>
+                    </div>
             </div>
         </div>
     </section>
@@ -937,8 +983,8 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
+                        </div>
+                    </div>
     </section>
 
     <script>
@@ -1010,18 +1056,56 @@
             return query.trim();
         }
 
-        function previewSearch() {
-            const query = buildSearchQuery();
-            const previewDiv = document.getElementById('searchPreview');
-            const queryDiv = document.getElementById('searchQuery');
-
-            if (query.includes('"jobs"') && query.length < 20) {
-                alert('Please enter a job type to build a useful search!');
+        async function optimizeQuery() {
+            const jobType = document.getElementById('jobTypeInput').value.trim();
+            const salary = document.getElementById('salaryInput').value;
+            const location = document.getElementById('locationInput').value;
+            const shift = document.getElementById('shiftInput').value;
+            const requirements = document.getElementById('requirementsInput').value.trim();
+            const filterScams = document.getElementById('filterScamsCheck').checked;
+            
+            if (!jobType) {
+                alert('Please enter a job type first!');
                 return;
             }
 
-            queryDiv.textContent = query;
-            previewDiv.style.display = 'block';
+            const button = document.getElementById('optimizeQueryBtn');
+            const resultDiv = document.getElementById('optimizationResult');
+            
+            // Show loading state
+            button.textContent = '🤖 Optimizing...';
+            button.disabled = true;
+
+            try {
+                const response = await fetch('/api/optimize-search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        jobType, salary, location, shift, requirements, filterScams
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.optimization) {
+                    const optimizedQueryDiv = document.getElementById('optimizedQuery');
+                    optimizedQueryDiv.textContent = data.optimization.optimizedQuery;
+                    resultDiv.style.display = 'block';
+                    
+                    // Store the optimized query for use
+                    window.currentOptimizedQuery = data.optimization.optimizedQuery;
+                } else {
+                    alert('Failed to optimize search. Please try again.');
+                }
+            } catch (error) {
+                console.error('Optimization error:', error);
+                alert('Failed to optimize search. Please try again.');
+            } finally {
+                button.textContent = '🤖 Optimize with AI';
+                button.disabled = false;
+            }
         }
 
         function executeSearch() {
@@ -1040,24 +1124,19 @@
             window.open(googleUrl, '_blank');
         }
 
+        function useOptimizedSearch() {
+            if (window.currentOptimizedQuery) {
+                const encodedQuery = encodeURIComponent(window.currentOptimizedQuery);
+                const googleUrl = `https://www.google.com/search?q=${encodedQuery}`;
+                window.open(googleUrl, '_blank');
+            }
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('previewSearchBtn').addEventListener('click', previewSearch);
             document.getElementById('buildSearchBtn').addEventListener('click', executeSearch);
-
-            // Auto-preview when form changes
-            const formInputs = document.querySelectorAll('.form-input, #filterScamsCheck');
-            formInputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    // Auto-preview after a short delay
-                    clearTimeout(window.previewTimeout);
-                    window.previewTimeout = setTimeout(() => {
-                        if (document.getElementById('jobTypeInput').value.trim()) {
-                            previewSearch();
-                        }
-                    }, 500);
-                });
-            });
+            document.getElementById('optimizeQueryBtn').addEventListener('click', optimizeQuery);
+            document.getElementById('useOptimizedBtn').addEventListener('click', useOptimizedSearch);
 
             // Handle Enter key in text inputs
             document.getElementById('jobTypeInput').addEventListener('keypress', function(e) {
