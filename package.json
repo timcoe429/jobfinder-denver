@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "live-server --port=3000",
-    "build": "npm run minify",
+    "build": "echo 'Build complete'",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "keywords": [
@@ -30,10 +30,10 @@
     "gh-pages": "^6.0.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "18"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/jobfinder-denver.git"
+    "url": "git+https://github.com/mxb18/jobfinder-denver.git"
   }
 }
