@@ -993,10 +993,10 @@
                         <div class="form-group">
                             <label for="searchSourceInput">Search Where</label>
                             <select id="searchSourceInput" class="form-input">
-                                <option value="standard">Standard Job Sites (Indeed, LinkedIn, Glassdoor)</option>
-                                <option value="company">Company Career Pages (Premium Jobs)</option>
+                                <option value="standard">Google Jobs (Recommended - Best Local Results)</option>
+                                <option value="company">Company Career Pages Only</option>
                                 <option value="craigslist">Craigslist</option>
-                                <option value="all">All Sources</option>
+                                <option value="all">Google Jobs + Company Sites</option>
                             </select>
                         </div>
                     </div>
@@ -1171,17 +1171,15 @@
 
             let query = '';
 
-            // Search approach based on source
-            if (searchSource === 'standard') {
-                // No site restrictions - let Google Jobs algorithm work with local bias
-                query = '';
-            } else if (searchSource === 'company') {
+            // Search approach - Google Jobs is primary, just filter out bad stuff
+            if (searchSource === 'company') {
+                // Company career pages only
                 query += '(site:jobs.* OR site:careers.* OR inurl:/careers/ OR inurl:/jobs/)';
                 query += ' -site:indeed.com -site:ziprecruiter.com -site:glassdoor.com -site:monster.com -site:linkedin.com';
             } else if (searchSource === 'craigslist') {
                 query += 'site:craigslist.org';
-            } else if (searchSource === 'all') {
-                // Let Google Jobs work + include company sites
+            } else {
+                // Standard and All: Let Google Jobs work naturally, just filter sketchy boards
                 query = '';
             }
 
@@ -1198,10 +1196,11 @@
             // Location handling
             if (location === 'remote') {
                 query += ' ("remote" OR "work from home")';
-            } else {
-                // Add "near me" for better local bias
+            } else if (searchSource !== 'company') {
+                // For Google Jobs, add "near me" for better local bias
                 query += ' "near me"';
             }
+            // Company career pages don't need location terms since we'll filter by region
 
             // Salary filtering - more flexible for company searches
             if (salary) {
@@ -1248,10 +1247,13 @@
                 if (searchSource === 'company') {
                     // No filtering for company career pages (they're legitimate)
                 } else {
-                    // Filter obvious scams and sketchy job boards
-                    query += ' -scam -MLM -"Apply on" -"job posting site"';
-                    query += ' -site:kget.com -site:ksnt.com -site:khon2.com';
-                    query += ' -site:abc7news.com -site:fox21news.com';
+                    // Primary focus: filter sketchy job boards that hijack Google Jobs
+                    query += ' -"Apply on" -"job posting site" -"job board"';
+                    query += ' -site:kget.com -site:ksnt.com -site:khon2.com -site:abc7news.com';
+                    query += ' -site:fox21news.com -site:wesh.com -site:wpbf.com -site:wcvb.com';
+                    query += ' -site:ketv.com -site:wkyt.com -site:koco.com -site:kcci.com';
+                    // Basic scam filtering
+                    query += ' -scam -MLM';
                 }
             }
 
